@@ -5,8 +5,6 @@ MAINTAINER Kai Arulkumaran <design@kaixhin.com>
 RUN apt-get install -y \
   vim \
   ssh \
-  libprotobuf-dev \
-  protobuf-compiler \
   libav-tools
 
 # Move into Caffe repo
