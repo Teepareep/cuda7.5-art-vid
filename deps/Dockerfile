@@ -2,30 +2,19 @@
 FROM nvidia/cuda:7.5-cudnn5-devel
 MAINTAINER Kai Arulkumaran <design@kaixhin.com>
 
-# Install git, wget, bc and dependencies
+# Install git, apt-add-repository and dependencies for iTorch
 RUN apt-get update && apt-get install -y \
   git \
-  wget \
-  bc \
-  cmake \
-  libatlas-base-dev \
-  libatlas-dev \
-  libboost-all-dev \
-  libopencv-dev \
-  libprotobuf-dev \
-  libgoogle-glog-dev \
-  libgflags-dev \
-  protobuf-compiler \
-  libhdf5-dev \
-  libleveldb-dev \
-  liblmdb-dev \
-  libsnappy-dev \
-  python-dev \
-  python-pip \
-  python-numpy \
-  gfortran > /dev/null
+  software-properties-common \
+  ipython3 \
+  libssl-dev \
+  libzmq3-dev \
+  python-zmq \
+  python-pip
 
-# Clone Caffe repo and move into it
-RUN cd /root && git clone https://github.com/BVLC/caffe.git && cd caffe && \
-# Install python dependencies
-  cat python/requirements.txt | xargs -n1 pip install
+# Install Jupyter Notebook for iTorch
+RUN pip install notebook ipywidgets
+
+# Run Torch7 installation scripts (dependencies only)
+RUN git clone https://github.com/torch/distro.git /root/torch --recursive && cd /root/torch && \
+  bash install-deps
